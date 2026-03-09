@@ -39,6 +39,7 @@ PI_MODELS=""
 INTERACTIVE=false
 DELTA_SIZE=5
 delete=false
+help=false
 
 printf_t() {
     local key=$1
@@ -50,6 +51,7 @@ printf_t() {
 declare -A i18n
 
 i18n[help_en]="Usage: $0 -f imagefile [-c iconfile] [-n name] [-d description] [-u osurl] [-t date] [-m version] [-p Pi Models]"
+i18n[help_message_en]="Use -h or -? for help."
 i18n[run_as_root_en]="This script must be run as root."
 i18n[bin_file_missing_en]="file could not be found, please install."
 i18n[bin_7z_missing_en]="7z could not be found, please install."
@@ -76,6 +78,7 @@ i18n[models1_en]="Please specify the Raspberry Pi model of the operating system:
 i18n[models2_en]="Models:"
 
 i18n[help_de]="Benutzung: $0 -f Imagedatei [-c Icondatei] [-n Name] [-d Beschreibung] [-u OS-Url] [-t Datum] [-m Version] [-p Pi Modelle]"
+i18n[help_message_de]="Verwenden Sie -h oder -? für Hilfe."
 i18n[run_as_root_de]="Dieser Skript muss als Root ausgeführt werden."
 i18n[bin_file_missing_de]="file konnte nicht gefunden werden, bitte installieren."
 i18n[bin_7z_missing_de]="7z konnte nicht gefunden werden, bitte installieren."
@@ -186,6 +189,7 @@ fi
 
 if [ -z "$IMAGE_FILE" ]; then
     printf_t image_path_missing
+    help=true
     error=true
 fi
 
@@ -195,13 +199,19 @@ if [ ! -f $IMAGE_FILE ]; then
 fi
 
 if [ ! -f $ICON_FILE ]; then
-    printf_t icon_not_foung "$ICON_FILE"
+    printf_t icon_not_found "$ICON_FILE"
     error=true   
 fi
 
 if [[ -z "$OS_NAME" && $INTERACTIVE == false ]]; then
     printf_t name_is_missing
+    help=true
     error=true   
+fi
+
+if $help
+then
+    printf_t help_message
 fi
 
 if $error
