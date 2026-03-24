@@ -1,6 +1,6 @@
-# 🚀 PINN Image Converter
+# 🚀 PINN Converter
 
-> 🛠️ Ein leistungsstarkes Bash-Skript zur Erstellung von PINN Kompatiblen Images
+> 🛠️ Ein leistungsstarkes Bash-Skript zur Erstellung von PINN kompatiblen Images
 
 ---
 
