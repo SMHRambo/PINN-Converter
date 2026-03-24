@@ -60,7 +60,7 @@ sudo ./build.sh -f inputimage.img
 ### Image ziehen
 
 ```bash
-docker pull SMHRambo/pinn-converter
+docker pull ghcr.io/smhrambo/pinn-converter
 ```
 
 ### Container ausführen
