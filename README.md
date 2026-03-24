@@ -72,7 +72,7 @@ docker run --rm --privileged -it -v "path to imagefile":/opt/pinn/<imagesfilenam
 
 ---
 
-## 📜 Lizenz
+## 📜 License
 
 GPL-3.0 license
 
