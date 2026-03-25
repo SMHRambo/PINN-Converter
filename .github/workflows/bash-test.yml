@@ -36,7 +36,7 @@ jobs:
         id: check_files
         uses: thebinaryfelix/check-file-existence-action@2.0.0
         with:
-          files: 'os.img, bla, README.md'
+          files: 'boot.tar.xz, os.json, partition_setup.sh, partitions.json, raspios_armhf_lite.png, root.tar.xz'
 
       - name: Files exist
         if: steps.check_files.outputs.exists == 'true'
