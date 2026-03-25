@@ -75,14 +75,13 @@ or
 
 #### Für DockerHub Container Repository ####
 ```bash
-docker pull smhrambo/pinn-converter:latest
+docker pull smhrambo/pinn-converter
 ```
 
 ### Container ausführen
 
 ```bash
-docker run --rm --privileged -it -v "path to imagefile":/opt/pinn/<imagesfilename> -v "path to output directory":/opt/pinn/os pinn-converter \
-  -f /opt/pinn/<imagefilename> -n "NAME"
+docker run --rm --privileged -it -v <PFAD_ZUM_URSPRUNGS_IMAGE>:/opt/pinn/<imagedateiname> -v <PFAD_ZUM_AUSGABE_ORDNER>:/opt/pinn/os pinn-converter -f /opt/pinn/<imagedateiname> -n <NAME>
 ```
 
 ---
