@@ -46,7 +46,7 @@ sudo ./build.sh -f inputimage.img -n NAME
 | `-f image`         | Path to the image file as .img or .zip |
 | `-n name`          | Name of the PINN image                 |
 | `[-i]`             | Interactive mode                       |
-| `[-c icon]`        | Path to the icon file as .jpg or .png) |
+| `[-c icon]`        | Path to the icon file as .jpg or .png  |
 | `[-d description]` | Description of the PINN image          |
 | `[-u url]`         | URL for the OS image                   |
 | `[-t date]`        | Date the OS image was created          |
