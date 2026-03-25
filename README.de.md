@@ -59,6 +59,8 @@ Alle anderen Angaben sind optional. <br />
 Wenn im interaktiven Modus noch andere Parameter übergeben wurden, werden diese während der Ausführung nicht mehr abgefragt. <br />
 Die Liste an kompatiblen Raspberry Pi Modellen wird als Komma getrennte Werte (CSV-String) übergeben.
 
+Der Skript erzeugt einen Ordner mit den Namen "os" der die passende Ordnerstruktur für PINN beinhaltet.
+
 ---
 
 ## 🐳 Verwendung mit Docker
