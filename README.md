@@ -59,6 +59,8 @@ All other options are optional. <br />
 If additional parameters are provided in interactive mode, they will not be prompted for during execution. <br />
 The list of compatible Raspberry Pi models is provided as a comma-separated values (CSV) string.
 
+The script creates a folder named "os" that contains the appropriate folder structure for PINN.
+
 ---
 
 ## 🐳 Usage with Docker
