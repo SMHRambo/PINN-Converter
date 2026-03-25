@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Pakete installieren
-        run: sudo apt-get install -y 7zip xz-utils libarchive-tools wget jq fdisk acl
+        run: sudo apt-get install -y --no-install-recommends 7zip acl fdisk file jq libarchive-tools mount util-linux wget xz-utils
         
       - name: Repository auschecken
         uses: actions/checkout@v4
