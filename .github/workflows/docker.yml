@@ -45,18 +45,19 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract Docker metadata
+      - name: Extract Docker metadata debian
         id: meta
         uses: docker/metadata-action@v6
         with:
           images: |
-            smhrambo/pinn-converter
+            docker.io/smhrambo/pinn-converter
+            ghcr.io/smhrambo/pinn-converter
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
             type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha
+            type=raw,value=
+          flavor: |
+            latest=true
+            suffix=debian
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
@@ -107,7 +108,7 @@ jobs:
       - name: Sign the published Docker image debian
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: latest, 1.0.0, debian, latest-debian, 1.0.0-debian
+          TAGS: "docker.io/smhrambo/pinn-converter:latest", "docker.io/smhrambo/pinn-converter:1.0.0", "docker.io/smhrambo/pinn-converter:debian", "docker.io/smhrambo/pinn-converter:latest-debian", "docker.io/smhrambo/pinn-converter:1.0.0-debian"
           DIGEST: ${{ steps.build-and-push-debian.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
