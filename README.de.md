@@ -53,7 +53,7 @@ sudo ./pinn-converter.sh -f <PFAD_ZUM_URSPRUNGS_IMAGE> -n <NAME>
 | `[-m <Version>]`      | Version des OS Images                      |
 | `[-p <Pi Modelle>]`   | Auflistung aller kompatibler RPi-Modelle   |
 
-Zum Ausführen ist nur Pfad zum Ursprungs-Image (-f <PATH_TO_SOURCE_IMAGE>) und der Name (-name NAME) notwendig. <br />
+Zum Ausführen ist nur Pfad zum Ursprungs-Image (-f <PFAD_ZUM_URSPRUNGS_IMAGE>) und der Name (-n <NAME>) notwendig. <br />
 Im interaktiven Modus [-i] werden alle Informationen während der Ausführung abgefragt. <br />
 Alle anderen Angaben sind optional. <br />
 Wenn im interaktiven Modus noch andere Parameter übergeben wurden, werden diese während der Ausführung nicht mehr abgefragt. <br />
