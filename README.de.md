@@ -67,13 +67,13 @@ Der Skript erzeugt einen Ordner mit den Namen "os" der die passende Ordnerstrukt
 
 ### Image ziehen
 
-#### Für Github Container Repository ####
+#### Für Github Container Registry ####
 ```bash
 docker pull ghcr.io/smhrambo/pinn-converter
 ```
 or
 
-#### Für DockerHub Container Repository ####
+#### Für DockerHub Container Registry ####
 ```bash
 docker pull smhrambo/pinn-converter
 ```
