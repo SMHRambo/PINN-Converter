@@ -12,16 +12,33 @@ jobs:
 
     steps:
       - name: Pakete installieren
-        run: sudo apt install -y 7zip xz-utils libarchive-tools wget
+        run: sudo apt-get install -y 7zip xz-utils libarchive-tools wget jq fdisk acl
         
       - name: Repository auschecken
         uses: actions/checkout@v4
 
       - name: Testimage herunterladen
-        run: wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -O raspios_lite_armhf.img.xz
+        run: wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -O testimage.img.xz
+
+      - name: Testicon herunterladen
+        run: wget https://downloads.raspberrypi.com/raspios_lite_armhf/Raspberry_Pi_OS_Lite_(32-bit).png -O testicon.png
 
       - name: Bash-Skript ausführbar machen
         run: chmod +x ./pinn-converter.sh
 
       - name: Bash-Skript ausführen
-        run: sudo ./pinn-converter.sh -f ./raspios_lite_armhf.img.xz -n "Raspios_lite_armhf"
+        run: sudo ./pinn-converter.sh -f ./testimage.img.xz -c ./testicon.png -n "raspios_armhf_lite" -d "A port of Debian with no desktop environment" -u "http://www.raspbian.org/" -t $(date +%F) -m trixie -p "Pi Model, Pi 2, Pi 3, Pi 4, Pi 5, Pi Zero, Pi Zero 2, Pi Compute Module 3, Pi Compute Module 4, Pi Compute Module 5" 
+
+      - name: Datein auflisten
+        run: sudo tree -d ./
+
+      - name: Prüfe ob Datein existieren
+        id: check_files
+        uses: thebinaryfelix/check-file-existence-action@v2.0.0
+        with:
+          files: 'os.img, bla, README.md'
+
+      - name: Files exist
+        if: steps.check_files.outputs.exists == 'true'
+        # Only runs if all of the files exist
+        run: echo "All files exist!"
