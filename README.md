@@ -67,13 +67,13 @@ The script creates a folder named "os" that contains the appropriate folder stru
 
 ### Pull image
 
-#### For Github Container Repository ####
+#### For GitHub Container Registry ####
 ```bash
 docker pull ghcr.io/smhrambo/pinn-converter
 ```
 or
 
-#### For DockerHub Container Repository ####
+#### For DockerHub Container Registry ####
 ```bash
 docker pull smhrambo/pinn-converter
 ```
