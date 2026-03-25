@@ -34,7 +34,7 @@ jobs:
 
       - name: Prüfe ob Datein existieren
         id: check_files
-        uses: thebinaryfelix/check-file-existence-action@v2.0.0
+        uses: thebinaryfelix/check-file-existence-action@2.0.0
         with:
           files: 'os.img, bla, README.md'
 
