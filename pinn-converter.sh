@@ -303,7 +303,7 @@ ROOT_UNCOMPRESSED_SIZE=$(stat -c %s os/${OS_NAME}/root.tar)
 xz -9 -e -f os/${OS_NAME}/root.tar
 ROOT_SHASUM="$(sha256sum "os/${OS_NAME}/root.tar.xz" | cut -f1 -d' ')"
 
-if [ ! -f $ICON_FILE ]; then
+if [ -f $ICON_FILE ]; then
     if [[ "$ICON_FILE" == *.* ]]; then
         fileext=".${ICON_FILE##*.}"
     else
