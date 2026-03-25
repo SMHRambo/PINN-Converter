@@ -5,15 +5,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-    7zip\
-    xz-utils \
-    libarchive-tools \
+    7zip \
     acl \
     fdisk \
+    file \
+    jq \
+    libarchive-tools \
     mount \
     util-linux \
-    file \
-    jq
+    xz-utils 
 
 RUN mkdir -p /opt/pinn
 RUN mkdir -p /opt/pinn/os
