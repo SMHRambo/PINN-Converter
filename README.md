@@ -53,7 +53,7 @@ sudo ./pinn-converter.sh -f <PATH_TO_SOURCE_IMAGE> -n <NAME>
 | `[-m <version>]`     | Version of the OS image                             |
 | `[-p <Pi Models>]`   | List of all compatible RPi models                   |
 
-To run the program, you only need to specify the path to the source image (-f <PATH_TO_SOURCE_IMAGE>) and the name of the PINN image (-name <NAME>). <br />
+To run the program, you only need to specify the path to the source image (-f <PATH_TO_SOURCE_IMAGE>) and the name of the PINN image (-n <NAME>). <br />
 In interactive mode [-i], all information is prompted for during execution. <br />
 All other options are optional. <br />
 If additional parameters are provided in interactive mode, they will not be prompted for during execution. <br />
