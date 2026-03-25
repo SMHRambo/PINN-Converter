@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Pakete installieren
-        run: sudo apt install -y xz 7ip bsdtar wget
+        run: sudo apt install -y 7zip xz-utils libarchive-tools wget
         
       - name: Repository auschecken
         uses: actions/checkout@v4
