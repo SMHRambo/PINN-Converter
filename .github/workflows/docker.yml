@@ -108,7 +108,7 @@ jobs:
       - name: Sign the published Docker image debian
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: "docker.io/smhrambo/pinn-converter:latest", "docker.io/smhrambo/pinn-converter:1.0.0", "docker.io/smhrambo/pinn-converter:debian", "docker.io/smhrambo/pinn-converter:latest-debian", "docker.io/smhrambo/pinn-converter:1.0.0-debian"
+          TAGS: "docker.io/smhrambo/pinn-converter:latest, docker.io/smhrambo/pinn-converter:1.0.0, docker.io/smhrambo/pinn-converter:debian, docker.io/smhrambo/pinn-converter:latest-debian, docker.io/smhrambo/pinn-converter:1.0.0-debian"
           DIGEST: ${{ steps.build-and-push-debian.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
