@@ -36,22 +36,22 @@ chmod +x pinn-converter.sh
 ## ▶️ Verwendung (Bash)
 
 ```bash
-sudo ./build.sh -f inputimage.img -n NAME
+sudo ./pinn-converter.sh -f <PFAD_ZUM_URSPRUNGS_IMAGE> -n <NAME>
 ```
 
 ### Parameter
 
-| Parameter          | Beschreibung                               |
-| ------------------ | ------------------------------------------ |
-| `-f image`         | Pfad zur Imagedatei als .img oder .zip     |
-| `-n name`          | Name des PINN Images                       |
-| `[-i]`             | Interaktiver Modus                         |
-| `[-c icon]`        | Pfad zur Icon-Bilddatei als .jpg oder .png |
-| `[-d description]` | Beschreibung des PINN Images               |
-| `[-u url]`         | URL zum OS Images                          |
-| `[-t date]`        | Erstellungsdatum des OS Images             |
-| `[-m version]`     | Version des OS Images                      |
-| `[-p Pi Models]`   | Auflistung aller kompatibler RPi-Modelle   |
+| Parameter             | Beschreibung                               |
+| --------------------- | ------------------------------------------ |
+| `-f <image>`          | Pfad zur Imagedatei als .img oder Archiv   |
+| `-n <Name>`           | Name des resultierenden PINN Images        |
+| `[-i]`                | Interaktiver Modus                         |
+| `[-c <Icon>]`         | Pfad zur Icon-Bilddatei als .jpg oder .png |
+| `[-d <Beschreibung>]` | Beschreibung des PINN Images               |
+| `[-u <url>]`          | URL zum OS Images                          |
+| `[-t <Datum>]`        | Erstellungsdatum des OS Images             |
+| `[-m <Version>]`      | Version des OS Images                      |
+| `[-p <Pi Modelle>]`   | Auflistung aller kompatibler RPi-Modelle   |
 
 Zum Ausführen ist nur Pfad zum Ursprungs-Image (-f PFAD) und der Name (-name NAME) notwendig. <br />
 Im interaktiven Modus [-i] werden alle Informationen während der Ausführung abgefragt. <br />
