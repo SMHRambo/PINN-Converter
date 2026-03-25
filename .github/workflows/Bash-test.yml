@@ -1,0 +1,27 @@
+name: Test Bash Script
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pakete installieren
+        uses: apt install -y xz 7ip bsdtar wget
+        
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Testimage herunterladen
+        uses: wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -O raspios_lite_armhf.img.xz
+
+      - name: Bash-Skript ausführbar machen
+        run: chmod +x ./pinn-converter.sh
+
+      - name: Bash-Skript ausführen
+        run: ./pinn-converter.sh -f ./raspios_lite_armhf.img.xz -n "Raspios_lite_armhf"
