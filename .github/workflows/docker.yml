@@ -19,6 +19,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -66,5 +72,5 @@ jobs:
           tags: |
             docker.io/smhrambo/pinn-converter:latest
             docker.io/smhrambo/pinn-converter:1.0.0
-            ghcr.io/SMHRambo/pinn-converter:latest
-            ghcr.io/SMHRambo/pinn-converter:1.0.0
+            ghcr.io/smhrambo/pinn-converter:latest
+            ghcr.io/smhrambo/pinn-converter:1.0.0
