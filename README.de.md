@@ -41,17 +41,17 @@ sudo ./build.sh -f inputimage.img -n NAME
 
 ### Parameter
 
-| Parameter          | Beschreibung                             |
-| ------------------ | ---------------------------------------- |
-| `-f image`         | Pfad zur Imagedatei als .img oder zip    |
-| `-i`               | Interaktiver Modus    |
-| `[-c icon]`        | Pfad zur Icon-Bilddatei als jpg oder png |
-| `[-n name]`        | Name des PINN Images                     |
-| `[-d description]` | Beschreibung des PINN Images             |
-| `[-u url]`         | URL zum OS Images                        |
-| `[-t date]`        | Erstellungsdatum des OS Images           |
-| `[-m version]`     | Version des OS Images                    |
-| `[-p Pi Models]`   | Auflistung aller kompatibler RPi-Modelle |
+| Parameter          | Beschreibung                               |
+| ------------------ | ------------------------------------------ |
+| `-f image`         | Pfad zur Imagedatei als .img oder .zip     |
+| `-n name`          | Name des PINN Images                       |
+| `[-i]`             | Interaktiver Modus                         |
+| `[-c icon]`        | Pfad zur Icon-Bilddatei als .jpg oder .png |
+| `[-d description]` | Beschreibung des PINN Images               |
+| `[-u url]`         | URL zum OS Images                          |
+| `[-t date]`        | Erstellungsdatum des OS Images             |
+| `[-m version]`     | Version des OS Images                      |
+| `[-p Pi Models]`   | Auflistung aller kompatibler RPi-Modelle   |
 
 Zum Ausführen ist nur Pfad zum Ursprungs-Image (-f PATH) und der Name (-name NAME) notwendig. 
 Im interaktiven Modus [-i] werden alle Informationen während der Ausführung abgefragt. 
