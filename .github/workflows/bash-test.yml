@@ -36,7 +36,7 @@ jobs:
         id: check_files
         uses: thebinaryfelix/check-file-existence-action@2.0.0
         with:
-          files: 'boot.tar.xz, os.json, partition_setup.sh, partitions.json, raspios_armhf_lite.png, root.tar.xz'
+          files: 'os/raspios_armhf_lite/boot.tar.xz, os/raspios_armhf_lite/os.json, os/raspios_armhf_lite/partition_setup.sh, os/raspios_armhf_lite/partitions.json, os/raspios_armhf_lite/raspios_armhf_lite.png, os/raspios_armhf_lite/root.tar.xz'
 
       - name: Files exist
         if: steps.check_files.outputs.exists == 'true'
