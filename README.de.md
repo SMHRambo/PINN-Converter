@@ -57,7 +57,7 @@ Zum Ausführen ist nur Pfad zum Ursprungs-Image (-f PFAD) und der Name (-name NA
 Im interaktiven Modus [-i] werden alle Informationen während der Ausführung abgefragt. <br />
 Alle anderen Angaben sind optional. <br />
 Wenn im interaktiven Modus noch andere Parameter übergeben wurden, werden diese während der Ausführung nicht mehr abgefragt. <br />
-Die Liste an kompatiblen Raspberry Pi Modellen wird als Komma getrennte Liste übergeben.
+Die Liste an kompatiblen Raspberry Pi Modellen wird als Komma getrennte Werte (CSV-String) übergeben.
 
 ---
 
