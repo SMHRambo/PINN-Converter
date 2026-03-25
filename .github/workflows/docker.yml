@@ -64,7 +64,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            smhrambo/pinn-converter:latest
-            smhrambo/pinn-converter:1.0.0
-            ghcr.io/smhrambo/pinn-converter:latest
-            ghcr.io/smhrambo/pinn-converter:1.0.0
+            docker.io/smhrambo/pinn-converter:latest
+            docker.io/smhrambo/pinn-converter:1.0.0
+            ghcr.io/${{ env.IMAGE_NAME }}:latest
+            ghcr.io/${{ env.IMAGE_NAME }}:1.0.0
