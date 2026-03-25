@@ -36,7 +36,7 @@ chmod +x pinn-converter.sh
 ## ▶️ Verwendung (Bash)
 
 ```bash
-sudo ./build.sh -f inputimage.img
+sudo ./build.sh -f inputimage.img -n NAME
 ```
 
 ### Parameter
@@ -53,6 +53,11 @@ sudo ./build.sh -f inputimage.img
 | `[-m version]`     | Version des OS Images                    |
 | `[-p Pi Models]`   | Auflistung aller kompatibler RPi-Modelle |
 
+Zum Ausführen ist nur Pfad zum Ursprungs-Image (-f PATH) und der Name (-name NAME) notwendig. 
+Im interaktiven Modus [-i] werden alle Informationen während der Ausführung abgefragt. 
+Alle anderen Angaben sind optional. 
+Wenn im interaktiven Modus noch andere Parameter übergeben wurden werden diese wärend der ausführung nicht mehr abgefragt.
+
 ---
 
 ## 🐳 Verwendung mit Docker
@@ -67,7 +72,7 @@ docker pull ghcr.io/smhrambo/pinn-converter
 
 ```bash
 docker run --rm --privileged -it -v "path to imagefile":/opt/pinn/<imagesfilename> -v "path to output directory":/opt/pinn/os pinn-converter \
-  -f /opt/pinn/<imagefilename> -n "OS name"
+  -f /opt/pinn/<imagefilename> -n "NAME"
 ```
 
 ---
