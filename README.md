@@ -56,7 +56,8 @@ sudo ./build.sh -f inputimage.img -n NAME
 To run the program, you only need to specify the path to the source image (-f PATH) and the name (-name NAME). <br />
 In interactive mode [-i], all information is prompted for during execution. <br />
 All other options are optional. <br />
-If additional parameters are provided in interactive mode, they will not be prompted for during execution.
+If additional parameters are provided in interactive mode, they will not be prompted for during execution. <br />
+The list of compatible Raspberry Pi models is provided as a comma-separated values (CSV) string.
 
 ---
 
