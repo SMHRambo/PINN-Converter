@@ -81,8 +81,7 @@ docker pull smhrambo/pinn-converter:latest
 ### Execute container
 
 ```bash
-docker run --rm --privileged -it -v "path to imagefile":/opt/pinn/<imagesfilename> -v "path to output directory":/opt/pinn/os pinn-converter \
-  -f /opt/pinn/<imagefilename> -n "NAME"
+docker run --rm --privileged -it -v <PATH_TO_SOURCE_IMAGE>:/opt/pinn/<imagefilename> -v <PATH_TO_OUTPUT_DIRECTORY>:/opt/pinn/os pinn-converter -f /opt/pinn/<imagefilename> -n <NAME>
 ```
 
 ---
