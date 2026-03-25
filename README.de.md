@@ -53,10 +53,10 @@ sudo ./build.sh -f inputimage.img -n NAME
 | `[-m version]`     | Version des OS Images                      |
 | `[-p Pi Models]`   | Auflistung aller kompatibler RPi-Modelle   |
 
-Zum Ausführen ist nur Pfad zum Ursprungs-Image (-f PATH) und der Name (-name NAME) notwendig. 
-Im interaktiven Modus [-i] werden alle Informationen während der Ausführung abgefragt. 
-Alle anderen Angaben sind optional. 
-Wenn im interaktiven Modus noch andere Parameter übergeben wurden werden diese wärend der ausführung nicht mehr abgefragt.
+Zum Ausführen ist nur Pfad zum Ursprungs-Image (-f PFAD) und der Name (-name NAME) notwendig.
+Im interaktiven Modus [-i] werden alle Informationen während der Ausführung abgefragt.
+Alle anderen Angaben sind optional.
+Wenn im interaktiven Modus noch andere Parameter übergeben wurden, werden diese während der Ausführung nicht mehr abgefragt.
 
 ---
 
