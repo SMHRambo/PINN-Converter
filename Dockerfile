@@ -13,7 +13,8 @@ RUN apt-get update \
     libarchive-tools \
     mount \
     util-linux \
-    xz-utils 
+    xz-utils \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /opt/pinn
 RUN mkdir -p /opt/pinn/os
