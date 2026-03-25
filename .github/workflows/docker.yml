@@ -64,7 +64,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            SMHRambo/pinn-converter:latest
-            SMHRambo/pinn-converter:1.0.0
-            ghcr.io/SMHRambo/pinn-converter:latest
-            ghcr.io/SMHRambo/pinn-converter:1.0.0
+            ${{ vars.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:1.0.0
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:1.0.0
