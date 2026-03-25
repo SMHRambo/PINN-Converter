@@ -75,7 +75,7 @@ or
 
 #### For DockerHub Container Repository ####
 ```bash
-docker pull smhrambo/pinn-converter:latest
+docker pull smhrambo/pinn-converter
 ```
 
 ### Execute container
