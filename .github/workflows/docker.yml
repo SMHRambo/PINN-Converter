@@ -55,11 +55,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Build and push
-        id: build-and-push
+      - name: Build and push debian
+        id: build-and-push-debian
         uses: docker/build-push-action@v7
         with:
           context: .
+          file: ./Dockerfile
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
           cache-from: type=gha
@@ -67,14 +68,47 @@ jobs:
           tags: |
             docker.io/smhrambo/pinn-converter:latest
             docker.io/smhrambo/pinn-converter:1.0.0
+            docker.io/smhrambo/pinn-converter:debian
+            docker.io/smhrambo/pinn-converter:latest-debian
+            docker.io/smhrambo/pinn-converter:1.0.0-debian
             ghcr.io/smhrambo/pinn-converter:latest
             ghcr.io/smhrambo/pinn-converter:1.0.0
+            ghcr.io/smhrambo/pinn-converter:debian
+            ghcr.io/smhrambo/pinn-converter:latest-debian
+            ghcr.io/smhrambo/pinn-converter:1.0.0-debian
 
-      - name: Sign the published Docker image
+      - name: Build and push alpine
+        id: build-and-push-alpine
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./Dockerfile.alpine
+          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            docker.io/smhrambo/pinn-converter:alpine
+            docker.io/smhrambo/pinn-converter:latest-alpine
+            docker.io/smhrambo/pinn-converter:1.0.0-alpine
+            ghcr.io/smhrambo/pinn-converter:alpine
+            ghcr.io/smhrambo/pinn-converter:latest-alpine
+            ghcr.io/smhrambo/pinn-converter:1.0.0-alpine
+
+      - name: Sign the published Docker image debian
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: ${{ steps.meta.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+          TAGS: latest, 1.0.0, debian, latest-debian, 1.0.0-debian
+          DIGEST: ${{ steps.build-and-push-debian.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+      - name: Sign the published Docker image aloine
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: alpine, latest-alpine, 1.0.0-alpine
+          DIGEST: ${{ steps.build-and-push-alpine.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
