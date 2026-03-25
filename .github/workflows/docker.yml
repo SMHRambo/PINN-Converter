@@ -46,18 +46,30 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Docker metadata debian
-        id: meta
+        id: meta-debian
         uses: docker/metadata-action@v6
         with:
           images: |
             docker.io/smhrambo/pinn-converter
             ghcr.io/smhrambo/pinn-converter
           tags: |
-            type=semver,pattern={{version}}
-            type=raw,value=
-          flavor: |
-            latest=true
-            suffix=debian
+            type=raw,value=latest
+            type=raw,value=1.0.0
+            type=raw,value=debian
+            type=raw,value=latest-debian
+            type=raw,value=1.0.0-debian
+
+      - name: Extract Docker metadata alpine
+        id: meta-alpine
+        uses: docker/metadata-action@v6
+        with:
+          images: |
+            docker.io/smhrambo/pinn-converter
+            ghcr.io/smhrambo/pinn-converter
+          tags: |
+            type=raw,value=alpine
+            type=raw,value=latest-alpine
+            type=raw,value=1.0.0-alpine
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
@@ -75,17 +87,8 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: |
-            docker.io/smhrambo/pinn-converter:latest
-            docker.io/smhrambo/pinn-converter:1.0.0
-            docker.io/smhrambo/pinn-converter:debian
-            docker.io/smhrambo/pinn-converter:latest-debian
-            docker.io/smhrambo/pinn-converter:1.0.0-debian
-            ghcr.io/smhrambo/pinn-converter:latest
-            ghcr.io/smhrambo/pinn-converter:1.0.0
-            ghcr.io/smhrambo/pinn-converter:debian
-            ghcr.io/smhrambo/pinn-converter:latest-debian
-            ghcr.io/smhrambo/pinn-converter:1.0.0-debian
+          tags: ${{ steps.meta-debian.outputs.tags }}
+          labels: ${{ steps.meta-debian.outputs.labels }}
 
       - name: Build and push alpine
         id: build-and-push-alpine
@@ -97,18 +100,13 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: |
-            docker.io/smhrambo/pinn-converter:alpine
-            docker.io/smhrambo/pinn-converter:latest-alpine
-            docker.io/smhrambo/pinn-converter:1.0.0-alpine
-            ghcr.io/smhrambo/pinn-converter:alpine
-            ghcr.io/smhrambo/pinn-converter:latest-alpine
-            ghcr.io/smhrambo/pinn-converter:1.0.0-alpine
+          tags: ${{ steps.meta-alpine.outputs.tags }}
+          labels: ${{ steps.meta-alpine.outputs.labels }}
 
       - name: Sign the published Docker image debian
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: "docker.io/smhrambo/pinn-converter:latest, docker.io/smhrambo/pinn-converter:1.0.0, docker.io/smhrambo/pinn-converter:debian, docker.io/smhrambo/pinn-converter:latest-debian, docker.io/smhrambo/pinn-converter:1.0.0-debian"
+          TAGS: ${{ steps.meta-debian.outputs.tags }}
           DIGEST: ${{ steps.build-and-push-debian.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
@@ -117,7 +115,7 @@ jobs:
       - name: Sign the published Docker image aloine
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: alpine, latest-alpine, 1.0.0-alpine
+          TAGS: ${{ steps.meta-alpine.outputs.tags }}
           DIGEST: ${{ steps.build-and-push-alpine.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
