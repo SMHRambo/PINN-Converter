@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Pakete installieren
-        run: apt install -y xz 7ip bsdtar wget
+        run: sudo apt install -y xz 7ip bsdtar wget
         
       - name: Repository auschecken
         uses: actions/checkout@v4
@@ -24,4 +24,4 @@ jobs:
         run: chmod +x ./pinn-converter.sh
 
       - name: Bash-Skript ausführen
-        run: ./pinn-converter.sh -f ./raspios_lite_armhf.img.xz -n "Raspios_lite_armhf"
+        run: sudo ./pinn-converter.sh -f ./raspios_lite_armhf.img.xz -n "Raspios_lite_armhf"
