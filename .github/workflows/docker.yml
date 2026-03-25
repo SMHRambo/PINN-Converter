@@ -1,10 +1,5 @@
 name: Docker
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 on:
   push:
     branches: [ "main" ]
@@ -65,7 +60,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/arm
+          platforms: linux/amd64,linux/amd64v2,linux/amd64v3,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -74,3 +69,12 @@ jobs:
             docker.io/smhrambo/pinn-converter:1.0.0
             ghcr.io/smhrambo/pinn-converter:latest
             ghcr.io/smhrambo/pinn-converter:1.0.0
+
+      - name: Sign the published Docker image
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: ${{ steps.meta.outputs.tags }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
