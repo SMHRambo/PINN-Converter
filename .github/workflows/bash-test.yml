@@ -5,27 +5,71 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  prepare:
+    name: Datei vorbereiten
     runs-on: ubuntu-latest
 
     steps:
-      - name: Pakete installieren
-        run: sudo apt-get install -y --no-install-recommends 7zip acl fdisk file jq libarchive-tools mount util-linux wget xz-utils
-        
+      - name: Datei herunterladen
+        run: |
+          mkdir -p shared
+          
+          wget "https://downloads.raspberrypi.org/raspios_lite_armhf_latest" -O shared/testimage.img.xz &
+          wget "https://downloads.raspberrypi.com/raspios_lite_armhf/Raspberry_Pi_OS_Lite_(32-bit).png" -O shared/testicon.png &
+
+          wait
+
+      - name: Artifact hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: shared-data
+          path: shared/
+
+  lint-and-test:
+    name: ${{ matrix.os }} / ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+    needs: prepare
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, debian-latest, alpine-latest]
+        arch: [x64, arm64, armhf]
+
+    steps:
       - name: Repository auschecken
         uses: actions/checkout@v4
 
-      - name: Testimage herunterladen
-        run: wget "https://downloads.raspberrypi.org/raspios_lite_armhf_latest" -O testimage.img.xz
+      - name: Artifact herunterladen
+        uses: actions/download-artifact@v4
+        with:
+          name: shared-data
+          path: shared
 
-      - name: Testicon herunterladen
-        run: wget "https://downloads.raspberrypi.com/raspios_lite_armhf/Raspberry_Pi_OS_Lite_(32-bit).png" -O testicon.png
+      - name: QEMU einrichten
+        if: matrix.arch == 'arm64'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Pakete installieren ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get install -y --no-install-recommends 7zip acl fdisk file jq libarchive-tools mount util-linux wget xz-utils shellcheck
+
+      - name: Pakete installieren debian
+        if: matrix.os == 'debian-latest'
+        run: sudo apt-get install -y --no-install-recommends 7zip acl fdisk file jq libarchive-tools mount util-linux wget xz-utils shellcheck
+
+      - name: Pakete installieren alpine
+        if: matrix.os == 'alpine-latest'
+        run: sudo apk add 7zip acl busybox file jq libarchive-tools mount util-linux wget xz shellcheck
+
+      - name: ShellCheck ausführen
+        run: shellcheck ./script.sh
 
       - name: Bash-Skript ausführbar machen
         run: chmod +x ./pinn-converter.sh
 
       - name: Bash-Skript ausführen
-        run: sudo ./pinn-converter.sh -f ./testimage.img.xz -c ./testicon.png -n "raspios_armhf_lite" -d "A port of Debian with no desktop environment" -u "http://www.raspbian.org/" -t $(date +%F) -m trixie -p "Pi Model, Pi 2, Pi 3, Pi 4, Pi 5, Pi Zero, Pi Zero 2, Pi Compute Module 3, Pi Compute Module 4, Pi Compute Module 5" 
+        run: sudo ./pinn-converter.sh -f ./shared/testimage.img.xz -c ./shared/testicon.png -n "raspios_armhf_lite" -d "A port of Debian with no desktop environment" -u "http://www.raspbian.org/" -t $(date +%F) -m trixie -p "Pi Model, Pi 2, Pi 3, Pi 4, Pi 5, Pi Zero, Pi Zero 2, Pi Compute Module 3, Pi Compute Module 4, Pi Compute Module 5" 
 
       - name: Prüfe ob Datein existieren
         id: check_files
