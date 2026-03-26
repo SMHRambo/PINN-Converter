@@ -193,12 +193,12 @@ if [ -z "$IMAGE_FILE" ]; then
     error=true
 fi
 
-if [ ! -f $IMAGE_FILE ]; then
+if [ ! -f "$IMAGE_FILE" ]; then
     printf_t image_not_found "$IMAGE_FILE"
     error=true   
 fi
 
-if [ ! -f $ICON_FILE ]; then
+if [ ! -f "$ICON_FILE" ]; then
     printf_t icon_not_found "$ICON_FILE"
     error=true   
 fi
@@ -220,51 +220,51 @@ then
 fi
 
 if file "$IMAGE_FILE" | grep -Eqi 'archive|compressed'; then
-    7z x -aoa ${IMAGE_FILE} > /dev/null
-    IMAGE_FILE=$(7z l -ba ${IMAGE_FILE} | awk '{print $NF}')
+    7z x -aoa "$IMAGE_FILE" > /dev/null
+    IMAGE_FILE=$(7z l -ba "$IMAGE_FILE" | awk '{print $NF}')
     delete=true
 fi
-7z x -aoa ${IMAGE_FILE} > /dev/null
+7z x -aoa "${IMAGE_FILE}" > /dev/null
 
 if [[ -z "$OS_NAME"  && $INTERACTIVE == true ]]; then
-    OS_NAME=$(basename ${IMAGE_FILE} | sed -E 's/^([A-Za-z]+).*/\1/')
+    OS_NAME=$(basename "$IMAGE_FILE" | sed -E 's/^([A-Za-z]+).*/\1/')
     printf_t name1
-    basename ${IMAGE_FILE}
-    read -e -i "$OS_NAME" -p "$(printf_t name2)" OS_NAME
+    basename "$IMAGE_FILE"
+    read -r -e -i "$OS_NAME" -p "$(printf_t name2)" OS_NAME
 fi
 
 if [[ -z "$OS_DESCRIPTION" && $INTERACTIVE == true ]]; then
     printf_t description1
-    read -e -i "$OS_DESCRIPTION" -p "$(printf_t description2)"
+    read -r -e -i "$OS_DESCRIPTION" -p "$(printf_t description2)"
 fi
 
 if [[ -z "$OS_URL" && $INTERACTIVE == true ]]; then
     printf_t url1
-    read -e -i "$OS_URL" -p "$(printf_t url2)"
+    read -r -e -i "$OS_URL" -p "$(printf_t url2)"
 fi
 
 if [[ -z "$OS_DATE" && $INTERACTIVE == true ]]; then
     OS_DATE=$(date +%Y.%m.%d)
     printf_t date1
-    basename ${IMAGE_FILE}
-    read -e -i "$OS_DATE" -p "$(printf_t date2)" OS_DATE
+    basename "$IMAGE_FILE"
+    read -r -e -i "$OS_DATE" -p "$(printf_t date2)" OS_DATE
 fi
 
 if [[ -z "$OS_VERSION" && $INTERACTIVE == true ]]; then
-    OS_VERSION=$(basename ${IMAGE_FILE} | sed 's/^[0-9-]*-\(.*\).img/\1/')
+    OS_VERSION=$(basename "$IMAGE_FILE" | sed 's/^[0-9-]*-\(.*\).img/\1/')
     printf_t version1
-    basename ${IMAGE_FILE}
-    read -e -i "$OS_VERSION" -p "$(printf_t version2)" OS_VERSION
+    basename "$IMAGE_FILE"
+    read -r -e -i "$OS_VERSION" -p "$(printf_t version2)" OS_VERSION
 fi
 
 if [[ -z "$PI_MODELS" && $INTERACTIVE == true ]]; then
     printf_t models1
-    read -e -i "Pi 1,Pi 2,Pi 3,Pi 4,Pi 5,Pi Zero,Pi Zero 2" -p "$(printf_t models2)" PI_MODELS
+    read -r -e -i "Pi 1,Pi 2,Pi 3,Pi 4,Pi 5,Pi Zero,Pi Zero 2" -p "$(printf_t models2)" PI_MODELS
 elif [[ $INTERACTIVE == true  ]]; then
     PI_MODELS="Pi 1,Pi 2,Pi 3,Pi 4,Pi 5,Pi Zero,Pi Zero 2"
 fi
 
-mkdir -p ./os/${OS_NAME}
+mkdir -p ./os/"$OS_NAME"
 mkdir -p ./mount0
 mkdir -p ./mount1
 
@@ -282,43 +282,43 @@ mount -o loop ./1.img ./mount1
 KERNEL=$((ls mount0 && ls mount1/boot/) | grep vmlinuz | tail -1 | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 
 cd mount0
-bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/${OS_NAME}/boot.tar .
+bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/"$OS_NAME"/boot.tar .
 cd ..
 umount ./mount0
 rm ./0.fat
-BOOT_SIZE=$(fdisk -l ${IMAGE_FILE} | grep "img1" | awk '{print $4}')
-BOOT_UNCOMPRESSED_SIZE=$(stat -c %s os/${OS_NAME}/boot.tar)
-xz -9 -e -f os/${OS_NAME}/boot.tar
-BOOT_SHASUM="$(sha256sum "os/${OS_NAME}/boot.tar.xz" | cut -f1 -d' ')"
+BOOT_SIZE=$(fdisk -l "$IMAGE_FILE" | grep "img1" | awk '{print $4}')
+BOOT_UNCOMPRESSED_SIZE=$(stat -c %s os/"$OS_NAME"/boot.tar)
+xz -9 -e -f os/"$OS_NAME"/boot.tar
+BOOT_SHASUM="$(sha256sum "os/$OS_NAME/boot.tar.xz" | cut -f1 -d' ')"
 
 cd mount1
 find . -type s -exec rm {} \;
 getfacl -s -R . | tee acl_permissions.pinn > /dev/null
-bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/${OS_NAME}/root.tar .
+bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/"${OS_NAME}"/root.tar .
 cd ..
 umount ./mount1
 rm ./1.img
-ROOT_SIZE=$(fdisk -l ${IMAGE_FILE} | grep "img2" | awk '{print $4}')
-ROOT_UNCOMPRESSED_SIZE=$(stat -c %s os/${OS_NAME}/root.tar)
-xz -9 -e -f os/${OS_NAME}/root.tar
-ROOT_SHASUM="$(sha256sum "os/${OS_NAME}/root.tar.xz" | cut -f1 -d' ')"
+ROOT_SIZE=$(fdisk -l "$IMAGE_FILE" | grep "img2" | awk '{print $4}')
+ROOT_UNCOMPRESSED_SIZE=$(stat -c %s os/"$OS_NAME"/root.tar)
+xz -9 -e -f os/"$OS_NAME"/root.tar
+ROOT_SHASUM="$(sha256sum "os/$OS_NAME/root.tar.xz" | cut -f1 -d' ')"
 
-if [ -f $ICON_FILE ]; then
+if [ -f "$ICON_FILE" ]; then
     if [[ "$ICON_FILE" == *.* ]]; then
         fileext=".${ICON_FILE##*.}"
     else
         fileext=""
     fi
 
-    cp ${ICON_FILE} os/${OS_NAME}/${OS_NAME}${fileext}
+    cp "$ICON_FILE" os/"$OS_NAME"/"$OS_NAME""$fileext"
 fi
 
-SECTOR_SIZE=$(fdisk -l ${IMAGE_FILE} | grep "Sector size" | awk '{print $4}')
+SECTOR_SIZE=$(fdisk -l "$IMAGE_FILE" | grep "Sector size" | awk '{print $4}')
 
 IFS=',;' read -ra models <<< "$PI_MODELS"
 PI_MODELS=$(printf '%s\n' "${models[@]}" | jq -R . | jq -s .)
 
-cat > os/${OS_NAME}/partition_setup.sh << EOF
+cat > os/"$OS_NAME"/partition_setup.sh << EOF
 #!/bin/sh
 #supports_backup in PINN
 
@@ -367,7 +367,7 @@ umount /tmp/1
 umount /tmp/2
 EOF
 
-cat > os/${OS_NAME}/partitions.json << EOF
+cat > os/"$OS_NAME"/partitions.json << EOF
 {
     "partitions": [
         {
@@ -392,7 +392,7 @@ cat > os/${OS_NAME}/partitions.json << EOF
 }
 EOF
 
-cat > os/${OS_NAME}/os.json << EOF
+cat > os/"$OS_NAME"/os.json << EOF
 {
     "name": "$OS_NAME",
     "description": "$OS_DESCRIPTION",
@@ -413,7 +413,7 @@ rm -r ./mount1
 
 if $delete
 then
-    rm $IMAGE_FILE
+    rm "$IMAGE_FILE"
 fi
 
 exit 0
