@@ -14,7 +14,7 @@ jobs:
         run: |
           mkdir -p shared
           
-          wget "https://downloads.raspberrypi.org/raspios_lite_armhf_latest" -O shared/testimage.img.xz &
+          wget "https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/armhf/alpine-rpi-3.23.3-armhf.img.gz" -O shared/testimage.img.xz &
           wget "https://downloads.raspberrypi.com/raspios_lite_armhf/Raspberry_Pi_OS_Lite_(32-bit).png" -O shared/testicon.png &
 
           wait
@@ -63,7 +63,7 @@ jobs:
         run: sudo apk add 7zip acl busybox file jq libarchive-tools mount util-linux wget xz shellcheck
 
       - name: ShellCheck ausführen
-        run: shellcheck ./script.sh
+        run: shellcheck ./pinn-converter.sh
 
       - name: Bash-Skript ausführbar machen
         run: chmod +x ./pinn-converter.sh
