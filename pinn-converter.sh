@@ -45,6 +45,7 @@ printf_t() {
     local key=$1
     shift
 
+	# shellcheck disable=SC2059
     printf "${i18n[${key}_${CURRENT_LANG}]}\n" "$@"
 }
 
@@ -289,11 +290,7 @@ BOOT_UNCOMPRESSED_SIZE=$(stat -c %s os/"$OS_NAME"/boot.tar)
 xz -9 -e -f os/"$OS_NAME"/boot.tar
 BOOT_SHASUM="$(sha256sum "os/$OS_NAME/boot.tar.xz" | cut -f1 -d' ')"
 
-cd mount1 || exit
-find . -type s -exec rm {} \;
-getfacl -s -R . | tee acl_permissions.pinn > /dev/null
-bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/"${OS_NAME}"/root.tar .
-cd ..
+(cd mount1 || exit && find . -type s -exec rm {} \; && getfacl -s -R . | tee acl_permissions.pinn > /dev/null && bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/"${OS_NAME}"/root.tar .)
 umount ./mount1
 rm ./1.img
 ROOT_SIZE=$(fdisk -l "$IMAGE_FILE" | grep "img2" | awk '{print $4}')
