@@ -224,7 +224,7 @@ if file "$IMAGE_FILE" | grep -Eqi 'archive|compressed'; then
     IMAGE_FILE=$(7z l -ba "$IMAGE_FILE" | awk '{print $NF}')
     delete=true
 fi
-7z x -aoa "${IMAGE_FILE}" > /dev/null
+7z x -aoa "$IMAGE_FILE" > /dev/null
 
 if [[ -z "$OS_NAME"  && $INTERACTIVE == true ]]; then
     OS_NAME=$(basename "$IMAGE_FILE" | sed -E 's/^([A-Za-z]+).*/\1/')
@@ -279,11 +279,9 @@ fi
 mount -o loop ./0.fat ./mount0
 mount -o loop ./1.img ./mount1
 
-KERNEL=$((ls mount0 && ls mount1/boot/) | grep vmlinuz | tail -1 | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+KERNEL=$( (ls mount0 && ls mount1/boot/) | grep vmlinuz | tail -1 | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' )
 
-cd mount0
-bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/"$OS_NAME"/boot.tar .
-cd ..
+(cd mount0 || exit && bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/"$OS_NAME"/boot.tar . )
 umount ./mount0
 rm ./0.fat
 BOOT_SIZE=$(fdisk -l "$IMAGE_FILE" | grep "img1" | awk '{print $4}')
@@ -291,7 +289,7 @@ BOOT_UNCOMPRESSED_SIZE=$(stat -c %s os/"$OS_NAME"/boot.tar)
 xz -9 -e -f os/"$OS_NAME"/boot.tar
 BOOT_SHASUM="$(sha256sum "os/$OS_NAME/boot.tar.xz" | cut -f1 -d' ')"
 
-cd mount1
+cd mount1 || exit
 find . -type s -exec rm {} \;
 getfacl -s -R . | tee acl_permissions.pinn > /dev/null
 bsdtar --numeric-owner --format gnutar --one-file-system -cpf ../os/"${OS_NAME}"/root.tar .
